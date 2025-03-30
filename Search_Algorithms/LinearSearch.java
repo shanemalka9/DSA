@@ -7,6 +7,7 @@ class LinearSearch {
         
         System.out.print("Enter value to search: ");
         int target = input.nextInt();
+        input.close();
         linearSearch(nums, target);
     }
 
