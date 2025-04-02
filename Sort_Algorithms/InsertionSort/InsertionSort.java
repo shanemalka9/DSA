@@ -9,6 +9,11 @@ public class InsertionSort {
         System.out.println("Sorted array using insertion sort : " + Arrays.toString( insertionSort(nums)));
     }
 
+    /**
+     * Builds a sorted array by picking elements one by one and inserting them into their correct position.
+     * @param arr
+     * @return
+     */
     private static int[] insertionSort(int[] arr) {
         System.out.println("Unsorted array: " + Arrays.toString(arr));
         int n = arr.length;

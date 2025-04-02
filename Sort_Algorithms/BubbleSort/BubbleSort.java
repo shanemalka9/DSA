@@ -9,6 +9,11 @@ public class BubbleSort {
         System.out.println("Final output : " + Arrays.toString(bubbleSort(nums)));
     }
 
+    /**
+     * Repeatedly swaps adjacent elements if they are in the wrong order, pushing the largest element to the end in each pass.
+     * @param arr
+     * @return
+     */
     private static int[] bubbleSort(int[] arr) {
         for (int i = 0; i < arr.length; i++) { // Loop through thea array multiple times to sort
             boolean sorted = true;

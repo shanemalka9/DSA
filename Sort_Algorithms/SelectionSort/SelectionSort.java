@@ -10,6 +10,11 @@ public class SelectionSort {
         System.out.println("Final output of maxSelectionSort: " + Arrays.toString(maxSelectionSort(nums.clone())));
     }
 
+    /**
+     * Repeatedly finds the smallest element from the unsorted part and swaps it with the first unsorted element.
+     * @param arr
+     * @return
+     */
     private static int[] minSelectionSort(int[] arr) {
         System.out.println("Unsorted array: " + Arrays.toString(arr));
         int n = arr.length;
@@ -29,6 +34,11 @@ public class SelectionSort {
         return arr;
     }
 
+    /**
+     * Repeatedly finds the largest element from the unsorted part and swaps it with the last unsorted element.
+     * @param arr
+     * @return
+     */
     private static int[] maxSelectionSort(int[] arr) {
         System.out.println("Unsorted array: " + Arrays.toString(arr));
         int n = arr.length;
