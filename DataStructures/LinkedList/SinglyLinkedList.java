@@ -1,6 +1,6 @@
 package DataStructures.LinkedList;
 
-public class LinkedList {
+public class SinglyLinkedList {
     // Head of the list
     private Node head = null;
 
