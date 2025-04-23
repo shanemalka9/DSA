@@ -31,11 +31,27 @@ A singly linked list is a linear data structure where each element (node) contai
   data next     data  next      data  next
 ```
 
-Operations:
+**Implementation Details:**
+- Each node contains: an integer value and a reference to the next node
+- The list maintains a reference to the head node only
+- Traversal is only possible in the forward direction
+
+**Operations:**
 - `add(data)`: Add node to the end
+  1. Create a new node with the given data
+  2. If head is null, set the new node as head
+  3. Otherwise, traverse to the last node and set its next reference to the new node
 - `addFirst(data)`: Add node to the beginning
+  1. Create a new node with the given data
+  2. Set the new node's next to the current head
+  3. Update head to point to the new node
 - `delete(data)`: Remove first node with matching data
+  1. Handle special case: if head contains the target data, update head to head.next
+  2. Otherwise, traverse the list until finding a node whose next node contains the target data
+  3. Bypass the target node by updating the next reference
 - `printValues()`: Print all node values
+  1. Start at the head and traverse through the list
+  2. Print each node's data value until reaching the end (null)
 
 #### Doubly Linked List
 
@@ -49,12 +65,36 @@ null<-| prev     |<------->| prev     |<------->| prev     |<-null
       +----------+         +----------+         +----------+
 ```
 
-Operations:
+**Implementation Details:**
+- Each node contains: an integer value, a reference to the next node, and a reference to the previous node
+- The list maintains a reference to the head node only
+- Traversal is possible in both forward and backward directions
+
+**Operations:**
 - `add(data)`: Add node to the end
+  1. Create a new node with the given data
+  2. If head is null, set the new node as head
+  3. Otherwise, traverse to the last node
+  4. Set the last node's next to point to the new node
+  5. Set the new node's previous to point to the last node
 - `addFirst(data)`: Add node to the beginning
+  1. Create a new node with the given data
+  2. If head is not null, set head's previous to point to the new node
+  3. Set the new node's next to the current head
+  4. Update head to point to the new node
 - `delete(data)`: Remove first node with matching data
+  1. If head is null, return (nothing to delete)
+  2. Find the node containing the target data
+  3. If not found, return
+  4. If it's the head, update head to head.next and set its previous to null
+  5. Otherwise, update the previous node's next and the next node's previous to bypass the target node
 - `printForward()`: Print all node values from head to tail
+  1. Start at the head and traverse through the list using next references
+  2. Print each node's data value until reaching the end (null)
 - `printBackward()`: Print all node values from tail to head
+  1. Start at the head and traverse to the last node using next references
+  2. From the last node, traverse backwards using previous references
+  3. Print each node's data value until reaching the beginning (null)
 
 ### Stack
 
@@ -73,11 +113,27 @@ A stack is a LIFO (Last-In-First-Out) data structure where elements are added an
           └────┘
 ```
 
-Operations:
+**Implementation Details:**
+- Array-based implementation with fixed capacity
+- Maintains a top index that points to the current top element
+- Empty stack indicated by top = -1
+
+**Operations:**
 - `push(data)`: Add element to the top
+  1. Check if stack is full (top == size-1)
+  2. If not full, increment top and place new element at that position
+  3. If full, display error message
 - `pop()`: Remove and return the top element
+  1. Check if stack is empty (top == -1)
+  2. If not empty, return the element at top and decrement top
+  3. If empty, display error message and return -1
 - `peek()`: Return the top element without removing
+  1. Check if stack is empty
+  2. If not empty, return the element at top without changing top
+  3. If empty, display error message and return -1
 - `printStack()`: Print all stack elements
+  1. Iterate through the array and print each element
+  2. Indicate the top element
 
 ### Queue
 
@@ -93,10 +149,23 @@ A basic queue implementation that follows FIFO (First-In-First-Out) principle wi
 └────┴────┴────┴────┘           └────┘
 ```
 
-Operations:
+**Implementation Details:**
+- Array-based implementation with fixed capacity
+- Maintains front (for dequeue operations) and rear (for enqueue operations) indices
+- Initial state: front = 0, rear = -1
+- Does not wrap around when rear reaches the end (limitation of this implementation)
+
+**Operations:**
 - `enqueue(data)`: Add element at the rear
+  1. Increment rear
+  2. Place the new element at the rear position
+  3. Increment size counter
 - `dequeue()`: Remove and return element from the front
+  1. Return the element at front position
+  2. Increment front to move to the next element
 - `printQueue()`: Print all queue elements
+  1. Iterate from front to rear and print each element
+  2. Show the current front and rear values
 
 #### Circular Queue
 
@@ -116,12 +185,31 @@ An improved queue implementation that efficiently uses memory by wrapping around
                       └─────────────┘
 ```
 
-Operations:
-- `enqueue(data)`: Add element at the rear (wraps around if needed)
-- `dequeue()`: Remove and return element from the front (wraps around if needed)
+**Implementation Details:**
+- Array-based implementation with fixed capacity
+- Uses front, rear, and size to track queue state
+- Uses modulo arithmetic to wrap around indices
+- Initial state: front = 0, rear = 0, size = 0
+
+**Operations:**
+- `enqueue(data)`: Add element at the rear
+  1. Check if queue is full (size == capacity)
+  2. If not full, place new element at rear position
+  3. Increment rear using modulo operation: rear = (rear + 1) % capacity
+  4. Increment size
+- `dequeue()`: Remove and return element from the front
+  1. Check if queue is empty (size == 0)
+  2. If not empty, get element at front position
+  3. Increment front using modulo operation: front = (front + 1) % capacity
+  4. Decrement size
+  5. Return the removed element
 - `isEmpty()`: Check if queue is empty
+  1. Return true if size == 0, otherwise false
 - `isFull()`: Check if queue is full
+  1. Return true if size == capacity, otherwise false
 - `printQueue()`: Print all queue elements
+  1. Iterate through the queue elements using modulo arithmetic to handle wrapping
+  2. Show the current front and rear positions
 
 ## Algorithms
 
@@ -138,7 +226,21 @@ Check:  1→  2→  3→  4→  5→  6→  7→  8→  9→  10
                            Found!
 ```
 
-Time Complexity: O(n)
+**Step-by-step process:**
+1. Start at the first element (index 0)
+2. Compare the current element with the target value
+3. If they match, return the current index (search successful)
+4. If they don't match, move to the next element
+5. Repeat steps 2-4 until either:
+   - A match is found (return the index)
+   - The end of the array is reached (return "not found")
+
+**Time Complexity:**
+- Best case: O(1) - target is the first element
+- Average case: O(n) - target is in the middle
+- Worst case: O(n) - target is the last element or not present
+
+**Space Complexity:** O(1) - uses constant extra space
 
 #### Binary Search
 
@@ -153,7 +255,32 @@ If target < middle:  [ 1 | 2 | 3 | 4 | 5 | - | - | - | - | - ]
 If target > middle:  [ - | - | - | - | - | 6 | 7 | 8 | 9 | 10 ]
 ```
 
-Time Complexity: O(log n)
+**Prerequisites:** The array must be sorted.
+
+**Step-by-step process:**
+1. Initialize `first` pointer to the beginning of the array (index 0)
+2. Initialize `last` pointer to the end of the array (length - 1)
+3. While `first` <= `last`:
+   a. Calculate the middle index: `mid = (first + last) / 2`
+   b. If array[mid] equals the target, return mid (search successful)
+   c. If target > array[mid], set first = mid + 1 (search in right half)
+   d. If target < array[mid], set last = mid - 1 (search in left half)
+4. If the while loop exits without returning, the target is not in the array (return -1)
+
+**Recursive implementation:**
+1. Calculate the middle index: `mid = (first + last) / 2`
+2. If array[mid] equals the target, return mid
+3. If target > array[mid], recursively search the right half
+4. If target < array[mid], recursively search the left half
+5. Base case: If first > last, return -1 (not found)
+
+**Time Complexity:**
+- Best case: O(1) - target is the middle element
+- Average and worst case: O(log n) - logarithmic time as the search space is halved in each step
+
+**Space Complexity:** 
+- Iterative: O(1) - constant extra space
+- Recursive: O(log n) - due to the call stack
 
 ### Sort Algorithms
 
@@ -161,87 +288,221 @@ Time Complexity: O(log n)
 
 Repeatedly steps through the list, compares adjacent elements, and swaps them if they are in the wrong order.
 
+**Step-by-step process:**
+1. Start at the beginning of the array
+2. Compare each pair of adjacent elements
+3. If they are in the wrong order (current > next), swap them
+4. After each pass, the largest unsorted element "bubbles" to its correct position
+5. Repeat steps 1-4 for n-1 passes, where n is the array length
+6. Optimization: If no swaps occur in a pass, the array is already sorted
+
+**Detailed example:**
 ```
 Initial: [ 6 | 5 | 2 | 8 | 9 | 3 | 4 ]
 
-Pass 1:  [ 5 | 6 | 2 | 8 | 9 | 3 | 4 ]  (Swap 6,5)
-         [ 5 | 2 | 6 | 8 | 9 | 3 | 4 ]  (Swap 6,2)
-         [ 5 | 2 | 6 | 8 | 9 | 3 | 4 ]  (No swap 8,6)
-         [ 5 | 2 | 6 | 8 | 9 | 3 | 4 ]  (No swap 9,8)
-         [ 5 | 2 | 6 | 8 | 3 | 9 | 4 ]  (Swap 9,3)
-         [ 5 | 2 | 6 | 8 | 3 | 4 | 9 ]  (Swap 9,4)
+Pass 1: 
+  Compare 6,5: Swap → [ 5 | 6 | 2 | 8 | 9 | 3 | 4 ]
+  Compare 6,2: Swap → [ 5 | 2 | 6 | 8 | 9 | 3 | 4 ]
+  Compare 6,8: No swap → [ 5 | 2 | 6 | 8 | 9 | 3 | 4 ]
+  Compare 8,9: No swap → [ 5 | 2 | 6 | 8 | 9 | 3 | 4 ]
+  Compare 9,3: Swap → [ 5 | 2 | 6 | 8 | 3 | 9 | 4 ]
+  Compare 9,4: Swap → [ 5 | 2 | 6 | 8 | 3 | 4 | 9 ]
+  End of Pass 1: Largest element (9) is at its correct position
+
+Pass 2:
+  Compare 5,2: Swap → [ 2 | 5 | 6 | 8 | 3 | 4 | 9 ]
+  Compare 5,6: No swap → [ 2 | 5 | 6 | 8 | 3 | 4 | 9 ]
+  Compare 6,8: No swap → [ 2 | 5 | 6 | 8 | 3 | 4 | 9 ]
+  Compare 8,3: Swap → [ 2 | 5 | 6 | 3 | 8 | 4 | 9 ]
+  Compare 8,4: Swap → [ 2 | 5 | 6 | 3 | 4 | 8 | 9 ]
+  End of Pass 2: Second largest element (8) is at its correct position
+
+...and so on until the array is fully sorted.
 ```
 
-Time Complexity: O(n²)
+**Time Complexity:**
+- Best case: O(n) - already sorted array with optimization
+- Average and worst case: O(n²) - need to compare most pairs of elements
+
+**Space Complexity:** O(1) - sorts in place with constant extra space
 
 #### Selection Sort
 
-Repeatedly selects the minimum element from the unsorted portion and places it at the beginning.
+Repeatedly selects the smallest (or largest) element from the unsorted portion and places it at the beginning (or end).
 
+**Step-by-step process (for minimum selection sort):**
+1. Divide the array into two parts: sorted (initially empty) and unsorted (initially the whole array)
+2. Find the minimum element in the unsorted part
+3. Swap it with the first element of the unsorted part
+4. Expand the sorted part to include this new element
+5. Repeat steps 2-4 until the entire array is sorted
+
+**Detailed example:**
 ```
 Initial: [ 6 | 5 | 2 | 8 | 9 | 3 | 4 ]
 
-Pass 1:  [ 2 | 5 | 6 | 8 | 9 | 3 | 4 ]  (Found min 2, swap with 6)
-Pass 2:  [ 2 | 3 | 6 | 8 | 9 | 5 | 4 ]  (Found min 3, swap with 5)
-Pass 3:  [ 2 | 3 | 4 | 8 | 9 | 5 | 6 ]  (Found min 4, swap with 6)
+Pass 1:
+  Find minimum in positions 0-6: 2 at index 2
+  Swap with first element: [ 2 | 5 | 6 | 8 | 9 | 3 | 4 ]
+  Sorted portion: [2], Unsorted: [5,6,8,9,3,4]
+
+Pass 2:
+  Find minimum in positions 1-6: 3 at index 5
+  Swap with position 1: [ 2 | 3 | 6 | 8 | 9 | 5 | 4 ]
+  Sorted portion: [2,3], Unsorted: [6,8,9,5,4]
+
+Pass 3:
+  Find minimum in positions 2-6: 4 at index 6
+  Swap with position 2: [ 2 | 3 | 4 | 8 | 9 | 5 | 6 ]
+  Sorted portion: [2,3,4], Unsorted: [8,9,5,6]
+
+...and so on until the array is fully sorted.
 ```
 
-Time Complexity: O(n²)
+**Time Complexity:**
+- Best, average, and worst case: O(n²) - always performs the same number of comparisons
+
+**Space Complexity:** O(1) - sorts in place with constant extra space
 
 #### Insertion Sort
 
 Builds a sorted array one element at a time, by inserting each element in its proper position.
 
+**Step-by-step process:**
+1. Start with the second element (index 1)
+2. Compare it with all elements in the sorted portion (to its left)
+3. Shift elements greater than the current "key" one position to the right
+4. Insert the key in its correct position
+5. Move to the next element and repeat steps 2-4 until the end of the array
+
+**Detailed example:**
 ```
 Initial: [ 6 | 5 | 2 | 8 | 9 | 3 | 4 ]
 
-Pass 1:  [ 5 | 6 | 2 | 8 | 9 | 3 | 4 ]  (Insert 5 before 6)
-Pass 2:  [ 2 | 5 | 6 | 8 | 9 | 3 | 4 ]  (Insert 2 at beginning)
-Pass 3:  [ 2 | 5 | 6 | 8 | 9 | 3 | 4 ]  (8 already in position)
+Pass 1 (key = 5):
+  Compare 5 with 6: 5 < 6, shift 6 right
+  Insert 5: [ 5 | 6 | 2 | 8 | 9 | 3 | 4 ]
+  Sorted portion: [5,6], Unsorted: [2,8,9,3,4]
+
+Pass 2 (key = 2):
+  Compare 2 with 6: 2 < 6, shift 6 right
+  Compare 2 with 5: 2 < 5, shift 5 right
+  Insert 2: [ 2 | 5 | 6 | 8 | 9 | 3 | 4 ]
+  Sorted portion: [2,5,6], Unsorted: [8,9,3,4]
+
+Pass 3 (key = 8):
+  Compare 8 with 6: 8 > 6, no shift needed
+  Insert 8: [ 2 | 5 | 6 | 8 | 9 | 3 | 4 ]
+  Sorted portion: [2,5,6,8], Unsorted: [9,3,4]
+
+...and so on until the array is fully sorted.
 ```
 
-Time Complexity: O(n²)
+**Time Complexity:**
+- Best case: O(n) - already sorted array
+- Average and worst case: O(n²) - need to shift most elements
+
+**Space Complexity:** O(1) - sorts in place with constant extra space
 
 #### Merge Sort
 
 A divide-and-conquer algorithm that divides the array into halves, sorts each half, and then merges them.
 
-```
-                  [ 6 | 5 | 2 | 8 | 9 | 3 | 4 ]
-                   /                     \
-         [ 6 | 5 | 2 | 8 ]          [ 9 | 3 | 4 ]
-          /         \                 /       \
-    [ 6 | 5 ]    [ 2 | 8 ]      [ 9 ]    [ 3 | 4 ]
-     /   \        /   \          |        /   \
-  [ 6 ] [ 5 ]  [ 2 ] [ 8 ]    [ 9 ]    [ 3 ] [ 4 ]
-     \   /        \   /          |        \   /
-    [ 5 | 6 ]    [ 2 | 8 ]    [ 9 ]    [ 3 | 4 ]
-          \         /                     \   /
-         [ 2 | 5 | 6 | 8 ]            [ 3 | 4 | 9 ]
-                   \                     /
-                  [ 2 | 3 | 4 | 5 | 6 | 8 | 9 ]
-```
+**Step-by-step process:**
+1. **Divide:** Split the array into two halves until each subarray has one element (a single element is considered sorted)
+2. **Conquer:** Recursively sort each half
+3. **Combine:** Merge the sorted halves to produce a single sorted array
 
-Time Complexity: O(n log n)
+**Detailed merge process:**
+1. Create temporary arrays for left and right halves
+2. Copy data to these temporary arrays
+3. Compare elements from both arrays and place the smaller one in the original array
+4. If one array is exhausted, copy the remaining elements from the other array
 
-#### Quick Sort
-
-Another divide-and-conquer algorithm that selects a pivot element and partitions the array around it.
-
+**Detailed example:**
 ```
 Initial: [ 6 | 5 | 2 | 8 | 9 | 3 | 4 ]
 
-Choose pivot (4):
-             pivot
-             ↓
-[ 2 | 3 | 4 | 6 | 8 | 9 | 5 ]
-  ←smaller→   ←larger→
+Divide into halves:
+  [ 6 | 5 | 2 | 8 ] and [ 9 | 3 | 4 ]
 
-Recursively sort subarrays:
-[ 2 | 3 ] pivot=4 [ 6 | 8 | 9 | 5 ]
+Further divide:
+  [ 6 | 5 ] and [ 2 | 8 ] and [ 9 ] and [ 3 | 4 ]
+
+Further divide until single elements:
+  [ 6 ] [ 5 ] [ 2 ] [ 8 ] [ 9 ] [ 3 ] [ 4 ]
+
+Merge phase (conquer):
+  Merge [6] and [5] → [5,6]
+  Merge [2] and [8] → [2,8]
+  Merge [3] and [4] → [3,4]
+
+  Merge [5,6] and [2,8] → [2,5,6,8]
+  Merge [9] and [3,4] → [3,4,9]
+
+  Merge [2,5,6,8] and [3,4,9] → [2,3,4,5,6,8,9]
 ```
 
-Time Complexity: Average O(n log n), Worst O(n²)
+**Time Complexity:**
+- Best, average, and worst case: O(n log n) - divide step takes O(log n) time, merge step takes O(n) time
+
+**Space Complexity:** O(n) - requires additional space for temporary arrays
+
+#### Quick Sort
+
+Another divide-and-conquer algorithm that partitions the array based on a pivot element.
+
+**Step-by-step process:**
+1. **Select a pivot:** Usually the last element (other strategies exist)
+2. **Partition:** Rearrange the array so that:
+   - All elements less than the pivot are to its left
+   - All elements greater than the pivot are to its right
+   - The pivot is in its final position
+3. **Divide:** Recursively sort the sub-arrays to the left and right of the pivot
+
+**Detailed partition process:**
+1. Choose the rightmost element as pivot
+2. Initialize index i = low - 1 (to track the boundary of smaller elements)
+3. For each element from low to high-1:
+   - If current element < pivot, increment i and swap arr[i] with current element
+4. Swap pivot (arr[high]) with arr[i+1]
+5. Return i+1 as the partition point
+
+**Detailed example:**
+```
+Initial: [ 6 | 5 | 2 | 8 | 9 | 3 | 4 ]
+
+First partition (pivot = 4):
+  Compare each element with pivot (4):
+  - 6 > 4: No action
+  - 5 > 4: No action
+  - 2 < 4: Increment i (0), swap arr[0] with arr[2] → [2|5|6|8|9|3|4]
+  - 8 > 4: No action
+  - 9 > 4: No action
+  - 3 < 4: Increment i (1), swap arr[1] with arr[5] → [2|3|6|8|9|5|4]
+  Place pivot: swap arr[2] with arr[6] → [2|3|4|8|9|5|6]
+  Pivot (4) is now at position 2
+
+Recursively sort left partition [2,3] and right partition [8,9,5,6]:
+  Left partition [2,3] is already sorted
+
+  Right partition [8,9,5,6]:
+    Choose pivot (6)
+    Partition process: [5|8|9|6] → [5|6|9|8]
+    Recursively sort [5] and [9,8]
+      [5] is already sorted
+      [9,8] → [8,9]
+
+Final sorted array: [2,3,4,5,6,8,9]
+```
+
+**Time Complexity:**
+- Best and average case: O(n log n) - balanced partitioning
+- Worst case: O(n²) - unbalanced partitioning (happens with already sorted arrays)
+
+**Space Complexity:**
+- Average: O(log n) - for the recursion stack
+- Worst: O(n) - for the recursion stack in worst case
 
 ## Usage
 
@@ -262,6 +523,40 @@ javac Algorithms/Search_Algorithms/BinarySearch/BinarySearch.java
 java Algorithms.Search_Algorithms.BinarySearch.BinarySearch
 ```
 
+## When to Use Which Data Structure or Algorithm
+
+### Data Structures
+
+**Linked List:**
+- Use when you need frequent insertions and deletions
+- Use when the size is not known in advance or may change dynamically
+- Use when random access is not required
+- Doubly linked lists are preferred when you need to traverse both forward and backward
+
+**Stack:**
+- Use for problems involving last-in-first-out (LIFO) operations
+- Applications: Function call management, expression evaluation, undo mechanisms
+- Use when you only need to access elements at one end of the collection
+
+**Queue:**
+- Use for problems involving first-in-first-out (FIFO) operations
+- Applications: Task scheduling, breadth-first search, buffering
+- Use when you need to process items in the exact order they were added
+- Circular queues are efficient for fixed-size queue implementations
+
+### Algorithms
+
+**Search Algorithms:**
+- **Linear Search:** Use for unsorted arrays or when the array is very small
+- **Binary Search:** Use for sorted arrays when quick lookups are required
+
+**Sort Algorithms:**
+- **Bubble Sort:** Rarely used in practice due to inefficiency, but simple to implement
+- **Selection Sort:** Use for small arrays or when memory writes are expensive
+- **Insertion Sort:** Use for small arrays or nearly sorted arrays
+- **Merge Sort:** Use when stable sort is required and extra memory usage is not a concern
+- **Quick Sort:** Use for general-purpose sorting when average performance matters more than worst-case scenarios
+
 ## Contributing
 
 Contributions are welcome! If you'd like to add new data structures, algorithms, or improve existing implementations:
@@ -270,3 +565,10 @@ Contributions are welcome! If you'd like to add new data structures, algorithms,
 2. Create your feature branch
 3. Commit your changes with detailed comments
 4. Push to your branch
+5. Submit a pull request with a clear description of your improvements
+
+When contributing, please ensure:
+- Code is well-commented and follows Java best practices
+- Each implementation includes a brief explanation of its functionality
+- Time and space complexity are documented
+- Examples demonstrating usage are provided
