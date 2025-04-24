@@ -211,6 +211,185 @@ An improved queue implementation that efficiently uses memory by wrapping around
   1. Iterate through the queue elements using modulo arithmetic to handle wrapping
   2. Show the current front and rear positions
 
+### Trees
+
+Trees are hierarchical data structures with a root value and subtrees of children, represented as a set of linked nodes.
+
+#### Binary Trees
+
+A binary tree is a tree data structure in which each node has at most two children, referred to as the left child and the right child.
+
+```
+           10
+          /  \
+         5    15
+        / \   / \
+       3   7 12  18
+```
+
+**Implementation Details:**
+- Each node contains: a value, a reference to the left child, and a reference to the right child
+- A tree maintains a reference to the root node
+- Operations can be performed recursively on subtrees
+
+**Operations:**
+- `insert(value)`: Add a new node to the tree
+- `search(value)`: Find a value in the tree
+- `delete(value)`: Remove a node with the given value
+- `traversal()`: Visit all nodes in a specific order
+
+#### Binary Search Trees (BST)
+
+A binary search tree is a special type of binary tree where:
+- The left subtree contains only nodes with values less than the node's value
+- The right subtree contains only nodes with values greater than the node's value
+- Both left and right subtrees are also BSTs
+
+```
+           10
+          /  \
+         5    15
+        / \   / \
+       3   7 12  18
+```
+
+**Implementation Details:**
+- Follows all binary tree properties
+- Maintains the BST property: left child < parent < right child
+- Enables efficient searching, insertion, and deletion (O(log n) on average)
+
+**Operations:**
+- `insert(value)`: Add a new node while maintaining BST property
+  1. Start at the root
+  2. If value < current node, go to left subtree
+  3. If value > current node, go to right subtree
+  4. If null position is found, insert new node there
+- `search(value)`: Find a value in the BST
+  1. Start at the root
+  2. If value equals current node value, return the node
+  3. If value < current node value, search left subtree
+  4. If value > current node value, search right subtree
+  5. If leaf is reached without finding value, return null
+- `delete(value)`: Remove a node while maintaining BST property
+  1. Find the node to delete
+  2. If node has no children, simply remove it
+  3. If node has one child, replace node with its child
+  4. If node has two children, find the inorder successor (smallest value in right subtree), replace node with it, and delete the successor
+
+#### Tree Traversal
+
+Tree traversal is the process of visiting each node in a tree exactly once. Different traversal methods yield different node orderings.
+
+```
+           10
+          /  \
+         5    15
+        / \   / \
+       3   7 12  18
+```
+
+**Depth-First Traversal Methods:**
+
+1. **Inorder Traversal (Left → Root → Right)**
+   - Process left subtree, then current node, then right subtree
+   - For the tree above: 3, 5, 7, 10, 12, 15, 18
+   - In a BST, this yields nodes in ascending order
+   - Implementation:
+     ```java
+     void inOrder(Node root) {
+         if (root != null) {
+             inOrder(root.left);
+             System.out.print(root.value + " ");
+             inOrder(root.right);
+         }
+     }
+     ```
+
+2. **Preorder Traversal (Root → Left → Right)**
+   - Process current node, then left subtree, then right subtree
+   - For the tree above: 10, 5, 3, 7, 15, 12, 18
+   - Useful for creating a copy of the tree or prefix expression evaluation
+   - Implementation:
+     ```java
+     void preOrder(Node root) {
+         if (root != null) {
+             System.out.print(root.value + " ");
+             preOrder(root.left);
+             preOrder(root.right);
+         }
+     }
+     ```
+
+3. **Postorder Traversal (Left → Right → Root)**
+   - Process left subtree, then right subtree, then current node
+   - For the tree above: 3, 7, 5, 12, 18, 15, 10
+   - Useful for deleting the tree or postfix expression evaluation
+   - Implementation:
+     ```java
+     void postOrder(Node root) {
+         if (root != null) {
+             postOrder(root.left);
+             postOrder(root.right);
+             System.out.print(root.value + " ");
+         }
+     }
+     ```
+
+**Breadth-First Traversal Method:**
+
+4. **Level Order Traversal**
+   - Process nodes level by level, from left to right
+   - For the tree above: 10, 5, 15, 3, 7, 12, 18
+   - Useful for level-by-level processing and creating a breadth-first representation
+   - Uses a queue to keep track of nodes to visit
+   - Implementation:
+     ```java
+     void levelOrder(Node root) {
+         if (root == null) return;
+         
+         Queue<Node> queue = new LinkedList<>();
+         queue.add(root);
+         
+         while (!queue.isEmpty()) {
+             Node current = queue.poll();
+             System.out.print(current.value + " ");
+             
+             if (current.left != null)
+                 queue.add(current.left);
+             
+             if (current.right != null)
+                 queue.add(current.right);
+         }
+     }
+     ```
+
+**How Tree Traversal Works:**
+
+Tree traversal algorithms leverage recursion or iteration to visit each node in the tree. The traversal process can be visualized as "walking" through the tree along a specific path:
+
+1. **Recursive Implementation:**
+   - Uses the call stack to implicitly track the traversal path
+   - Each recursive call processes a subtree
+   - The order of operations (visit node, process left, process right) determines the traversal type
+
+2. **Iterative Implementation:**
+   - Uses an explicit stack (for DFS) or queue (for BFS) to track nodes
+   - Eliminates the risk of stack overflow for very deep trees
+   - More complex to implement but more efficient for large trees
+
+**Applications of Tree Traversal:**
+
+- **Inorder:** Retrieving elements in sorted order from a BST
+- **Preorder:** Creating a copy of the tree or generating prefix notation
+- **Postorder:** Deleting a tree or generating postfix notation
+- **Level Order:** Level-by-level processing, useful for visualizing tree structure
+
+**Time and Space Complexity:**
+- Time Complexity: O(n) - each node is visited exactly once
+- Space Complexity:
+  - Recursive: O(h) where h is the height of the tree (worst case O(n) for skewed trees)
+  - Iterative: O(w) where w is the maximum width of the tree (worst case O(n) for complete trees at lowest level)
+
 ## Algorithms
 
 ### Search Algorithms
