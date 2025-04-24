@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Structures and Algorithms</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github.min.css" id="code-theme">
+    <style>
+        :root {
+            --bg-color: #f8f9fa;
+            --text-color: #212529;
+            --nav-bg: #ffffff;
+            --card-bg: #ffffff;
+            --border-color: #dee2e6;
+            --code-bg: #f7f7f7;
+            --primary-color: #0d6efd;
+            --secondary-color: #6c757d;
+            --link-color: #0d6efd;
+            --link-hover: #0a58ca;
+            --ascii-bg: #f8f9fa;
+            --ascii-color: #212529;
+            --header-bg: #e9ecef;
+        }
+
+        .dark-mode {
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --nav-bg: #1e1e1e;
+            --card-bg: #2d2d2d;
+            --border-color: #444444;
+            --code-bg: #2d2d2d;
+            --primary-color: #90caf9;
+            --secondary-color: #b0bec5;
+            --link-color: #90caf9;
+            --link-hover: #bbdefb;
+            --ascii-bg: #2d2d2d;
+            --ascii-color: #e0e0e0;
+            --header-bg: #333333;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 0;
+            transition: all 0.3s ease;
+        }
+
+        header {
+            background-color: var(--header-bg);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .title-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        h1, h2, h3, h4 {
+            color: var(--primary-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        nav {
+            background-color: var(--nav-bg);
+            position: sticky;
+            top: 4rem;
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            z-index: 99;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            overflow-x: auto;
+            gap: 1rem;
+        }
+
+        nav a {
+            color: var(--link-color);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            white-space: nowrap;
+        }
+
+        nav a:hover {
+            color: var(--link-hover);
+            background-color: rgba(13, 110, 253, 0.1);
+        }
+
+        .section {
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .data-structure {
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 2rem;
+        }
+
+        code {
+            font-family: 'Consolas', 'Monaco', monospace;
+            background-color: var(--code-bg);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        pre {
+            background-color: var(--code-bg);
+            padding: 1rem;
+            border-radius: 4px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+
+        .ascii-art {
+            font-family: 'Consolas', 'Monaco', monospace;
+            white-space: pre;
+            background-color: var(--ascii-bg);
+            color: var(--ascii-color);
+            padding: 1rem;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 14px;
+            line-height: 1.2;
+            border: 1px solid var(--border-color);
+            margin: 1rem 0;
+        }
+
+        .mode-toggle {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .mode-toggle:hover {
+            transform: scale(1.05);
+        }
+
+        #mode-icon {
+            width: 30px;
+            height: 30px;
+            transition: all 0.3s ease;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        table th, table td {
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            text-align: left;
+        }
+
+        table th {
+            background-color: var(--header-bg);
+        }
+
+        .complexity-table {
+            max-width: 600px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .section {
+                padding: 1rem;
+            }
+            
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 1rem;
+            }
+            
+            .title-container {
+                margin-bottom: 1rem;
+            }
+            
+            nav ul {
+                flex-wrap: nowrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="title-container">
+            <h1>Data Structures and Algorithms (DSA)</h1>
+        </div>
+        <button class="mode-toggle" id="mode-toggle" aria-label="Toggle dark/light mode">
+            <svg id="mode-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="5"></circle>
+                <line x1="12" y1="1" x2="12" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="23"></line>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                <line x1="1" y1="12" x2="3" y2="12"></line>
+                <line x1="21" y1="12" x2="23" y2="12"></line>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+        </button>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#overview">Overview</a></li>
+            <li><a href="#data-structures">Data Structures</a></li>
+            <li><a href="#linked-lists">Linked Lists</a></li>
+            <li><a href="#stack">Stack</a></li>
+            <li><a href="#queue">Queue</a></li>
+            <li><a href="#trees">Trees</a></li>
+            <li><a href="#algorithms">Algorithms</a></li>
+            <li><a href="#search-algorithms">Search Algo</a></li>
+            <li><a href="#sort-algorithms">Sort Algo</a></li>
+            <li><a href="#usage">Usage</a></li>
+            <li><a href="#when-to-use">When To Use</a></li>
+            <li><a href="#contributing">Contributing</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <section id="overview" class="section">
+            <h2>Overview</h2>
+            <p>This repository contains Java implementations of common data structures and algorithms. Each implementation includes detailed comments explaining the logic and functionality, making it an excellent resource for learning DSA concepts.</p>
+        </section>
+
+        <section id="data-structures" class="section">
+            <h2>Data Structures</h2>
+            
+            <div id="linked-lists" class="data-structure">
+                <h3>Linked Lists</h3>
+                
+                <h4>Singly Linked List</h4>
+                <p>A singly linked list is a linear data structure where each element (node) contains data and a reference to the next node in the sequence.</p>
+                
+                <div class="ascii-art">
+[ Node 1 | ]--->[ Node 2 | ]--->[ Node 3 | ]---> null
+  data next     data  next      data  next
+                </div>
+                
+                <h5>Implementation Details:</h5>
+                <ul>
+                    <li>Each node contains: an integer value and a reference to the next node</li>
+                    <li>The list maintains a reference to the head node only</li>
+                    <li>Traversal is only possible in the forward direction</li>
+                </ul>
+                
+                <h5>Operations:</h5>
+                <ul>
+                    <li><strong>add(data):</strong> Add node to the end
+                        <ol>
+                            <li>Create a new node with the given data</li>
+                            <li>If head is null, set the new node as head</li>
+                            <li>Otherwise, traverse to the last node and set its next reference to the new node</li>
+                        </ol>
+                    </li>
+                    <li><strong>addFirst(data):</strong> Add node to the beginning
+                        <ol>
+                            <li>Create a new node with the given data</li>
+                            <li>Set the new node's next to the current head</li>
+                            <li>Update head to point to the new node</li>
+                        </ol>
+                    </li>
+                    <li><strong>delete(data):</strong> Remove first node with matching data
+                        <ol>
+                            <li>Handle special case: if head contains the target data, update head to head.next</li>
+                            <li>Otherwise, traverse the list until finding a node whose next node contains the target data</li>
+                            <li>Bypass the target node by updating the next reference</li>
+                        </ol>
+                    </li>
+                    <li><strong>printValues():</strong> Print all node values
+                        <ol>
+                            <li>Start at the head and traverse through the list</li>
+                            <li>Print each node's data value until reaching the end (null)</li>
+                        </ol>
+                    </li>
+                </ul>
+                
+                <h4>Doubly Linked List</h4>
+                <p>A doubly linked list extends the singly linked list by adding a reference to the previous node, allowing for bidirectional traversal.</p>
+                
+                <div class="ascii-art">
+      +----------+         +----------+         +----------+
+null<-| prev     |<------->| prev     |<------->| prev     |<-null
+      | Node 1   |         | Node 2   |         | Node 3   |
+      |     next |-------->|     next |-------->|     next |
+      +----------+         +----------+         +----------+
+                </div>
+                
+                <h5>Implementation Details:</h5>
+                <ul>
+                    <li>Each node contains: an integer value, a reference to the next node, and a reference to the previous node</li>
+                    <li>The list maintains a reference to the head node only</li>
+                    <li>Traversal is possible in both forward and backward directions</li>
+                </ul>
+                
+                <h5>Operations:</h5>
+                <ul>
+                    <li><strong>add(data):</strong> Add node to the end
+                        <ol>
+                            <li>Create a new node with the given data</li>
+                            <li>If head is null, set the new node as head</li>
+                            <li>Otherwise, traverse to the last node</li>
+                            <li>Set the last node's next to point to the new node</li>
+                            <li>Set the new node's previous to point to the last node</li>
+                        </ol>
+                    </li>
+                    <li><strong>addFirst(data):</strong> Add node to the beginning
+                        <ol>
+                            <li>Create a new node with the given data</li>
+                            <li>If head is not null, set head's previous to point to the new node</li>
+                            <li>Set the new node's next to the current head</li>
+                            <li>Update head to point to the new node</li>
+                        </ol>
+                    </li>
+                    <li><strong>delete(data):</strong> Remove first node with matching data
+                        <ol>
+                            <li>If head is null, return (nothing to delete)</li>
+                            <li>Find the node containing the target data</li>
+                            <li>If not found, return</li>
+                            <li>If it's the head, update head to head.next and set its previous to null</li>
+                            <li>Otherwise, update the previous node's next and the next node's previous to bypass the target node</li>
+                        </ol>
+                    </li>
+                    <li><strong>printForward():</strong> Print all node values from head to tail</li>
+                    <li><strong>printBackward():</strong> Print all node values from tail to head</li>
+                </ul>
+            </div>
+            
+            <div id="stack" class="data-structure">
+                <h3>Stack</h3>
+                <p>A stack is a LIFO (Last-In-First-Out) data structure where elements are added and removed from the same end, called the top.</p>
+                
+                <div class="ascii-art">
+          │ 60 │ ← Top
+          ├────┤
+          │ 40 │
+          ├────┤
+          │ 20 │
+          ├────┤
+          │ 30 │
+          ├────┤
+          │ 10 │
+          └────┘
+                </div>
+                
+                <h5>Implementation Details:</h5>
+                <ul>
+                    <li>Array-based implementation with fixed capacity</li>
+                    <li>Maintains a top index that points to the current top element</li>
+                    <li>Empty stack indicated by top = -1</li>
+                </ul>
+                
+                <h5>Operations:</h5>
+                <ul>
+                    <li><strong>push(data):</strong> Add element to the top
+                        <ol>
+                            <li>Check if stack is full (top == size-1)</li>
+                            <li>If not full, increment top and place new element at that position</li>
+                            <li>If full, display error message</li>
+                        </ol>
+                    </li>
+                    <li><strong>pop():</strong> Remove and return the top element
+                        <ol>
+                            <li>Check if stack is empty (top == -1)</li>
+                            <li>If not empty, return the element at top and decrement top</li>
+                            <li>If empty, display error message and return -1</li>
+                        </ol>
+                    </li>
+                    <li><strong>peek():</strong> Return the top element without removing
+                        <ol>
+                            <li>Check if stack is empty</li>
+                            <li>If not empty, return the element at top without changing top</li>
+                            <li>If empty, display error message and return -1</li>
+                        </ol>
+                    </li>
+                    <li><strong>printStack():</strong> Print all stack elements</li>
+                </ul>
+            </div>
+            
+            <div id="queue" class="data-structure">
+                <h3>Queue</h3>
+                
+                <h4>Linear Queue</h4>
+                <p>A basic queue implementation that follows FIFO (First-In-First-Out) principle with elements added at the rear and removed from the front.</p>
+                
+                <div class="ascii-art">
+      Front                        Rear
+        ↓                           ↓
+┌────┬────┬────┬────┐           ┌────┐
+│ 20 │ 5  │ 99 │    │ Enqueue → │    │
+└────┴────┴────┴────┘           └────┘
+                </div>
+                
+                <h5>Implementation Details:</h5>
+                <ul>
+                    <li>Array-based implementation with fixed capacity</li>
+                    <li>Maintains front (for dequeue operations) and rear (for enqueue operations) indices</li>
+                    <li>Initial state: front = 0, rear = -1</li>
+                    <li>Does not wrap around when rear reaches the end (limitation of this implementation)</li>
+                </ul>
+                
+                <h5>Operations:</h5>
+                <ul>
+                    <li><strong>enqueue(data):</strong> Add element at the rear</li>
+                    <li><strong>dequeue():</strong> Remove and return element from the front</li>
+                    <li><strong>printQueue():</strong> Print all queue elements</li>
+                </ul>
+                
+                <h4>Circular Queue</h4>
+                <p>An improved queue implementation that efficiently uses memory by wrapping around when reaching the end of the array.</p>
+                
+                <div class="ascii-art">
+        ┌───────────────────────────┐
+        │                           │
+        ▼                           │
+┌────┬────┬────┬────┐               │
+│ 12 │ 20 │ 5  │ 99 │               │
+└────┴────┴────┴────┘               │
+  ▲              │                  │
+  │              │                  │
+  └──────────────┘                  │
+       Dequeue     Enqueue          │
+                      └─────────────┘
+                </div>
+                
+                <h5>Implementation Details:</h5>
+                <ul>
+                    <li>Array-based implementation with fixed capacity</li>
+                    <li>Uses front, rear, and size to track queue state</li>
+                    <li>Uses modulo arithmetic to wrap around indices</li>
+                    <li>Initial state: front = 0, rear = 0, size = 0</li>
+                </ul>
+                
+                <h5>Operations:</h5>
+                <ul>
+                    <li><strong>enqueue(data):</strong> Add element at the rear</li>
+                    <li><strong>dequeue():</strong> Remove and return element from the front</li>
+                    <li><strong>isEmpty():</strong> Check if queue is empty</li>
+                    <li><strong>isFull():</strong> Check if queue is full</li>
+                    <li><strong>printQueue():</strong> Print all queue elements</li>
+                </ul>
+            </div>
+
+            <div id="trees" class="data-structure">
+                <h3>Trees</h3>
+                <p>Trees are hierarchical data structures with a root value and subtrees of children, represented as a set of linked nodes.</p>
+                
+                <h4>Binary Trees</h4>
+                <p>A binary tree is a tree data structure in which each node has at most two children, referred to as the left child and the right child.</p>
+                
+                <div class="ascii-art">
+           10
+          /  \
+         5    15
+        / \   / \
+       3   7 12  18
+                </div>
+                
+                <h5>Implementation Details:</h5>
+                <ul>
+                    <li>Each node contains: a value, a reference to the left child, and a reference to the right child</li>
+                    <li>A tree maintains a reference to the root node</li>
+                    <li>Operations can be performed recursively on subtrees</li>
+                </ul>
+                
+                <h5>Operations:</h5>
+                <ul>
+                    <li><strong>insert(value):</strong> Add a new node to the tree</li>
+                    <li><strong>search(value):</strong> Find a value in the tree</li>
+                    <li><strong>delete(value):</strong> Remove a node with the given value</li>
+                    <li><strong>traversal():</strong> Visit all nodes in a specific order</li>
+                </ul>
+                
+                <h4>Binary Search Trees (BST)</h4>
+                <p>A binary search tree is a special type of binary tree where:</p>
+                <ul>
+                    <li>The left subtree contains only nodes with values less than the node's value</li>
+                    <li>The right subtree contains only nodes with values greater than the node's value</li>
+                    <li>Both left and right subtrees are also BSTs</li>
+                </ul>
+
+                <h5>Tree Traversal Methods:</h5>
+                <ul>
+                    <li><strong>Inorder Traversal (Left → Root → Right)</strong>
+                        <ul>
+                            <li>Process left subtree, then current node, then right subtree</li>
+                            <li>For the example tree: 3, 5, 7, 10, 12, 15, 18</li>
+                            <li>In a BST, this yields nodes in ascending order</li>
+                        </ul>
+                    </li>
+                    <li><strong>Preorder Traversal (Root → Left → Right)</strong>
+                        <ul>
+                            <li>Process current node, then left subtree, then right subtree</li>
+                            <li>For the example tree: 10, 5, 3, 7, 15, 12, 18</li>
+                            <li>Useful for creating a copy of the tree or prefix expression evaluation</li>
+                        </ul>
+                    </li>
+                    <li><strong>Postorder Traversal (Left → Right → Root)</strong>
+                        <ul>
+                            <li>Process left subtree, then right subtree, then current node</li>
+                            <li>For the example tree: 3, 7, 5, 12, 18, 15, 10</li>
+                            <li>Useful for deleting the tree or postfix expression evaluation</li>
+                        </ul>
+                    </li>
+                    <li><strong>Level Order Traversal</strong>
+                        <ul>
+                            <li>Process nodes level by level, from left to right</li>
+                            <li>For the example tree: 10, 5, 15, 3, 7, 12, 18</li>
+                            <li>Uses a queue to keep track of nodes to visit</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="algorithms" class="section">
+            <h2>Algorithms</h2>
+            
+            <div id="search-algorithms">
+                <h3>Search Algorithms</h3>
+                
+                <h4>Linear Search</h4>
+                <p>Linear search sequentially checks each element of the array until a match is found or the array ends.</p>
+                
+                <div class="ascii-art">
+Array: [ 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 ]
+        ↑   ↑   ↑   ↑   ↑   ↑   ↑   ↑   ↑   ↑
+Check:  1→  2→  3→  4→  5→  6→  7→  8→  9→  10
+                           Found!
+                </div>
+                
+                <h5>Step-by-step process:</h5>
+                <ol>
+                    <li>Start at the first element (index 0)</li>
+                    <li>Compare the current element with the target value</li>
+                    <li>If they match, return the current index (search successful)</li>
+                    <li>If they don't match, move to the next element</li>
+                    <li>Repeat steps 2-4 until either:
+                        <ul>
+                            <li>A match is found (return the index)</li>
+                            <li>The end of the array is reached (return "not found")</li>
+                        </ul>
+                    </li>
+                </ol>
+                
+                <h5>Time Complexity:</h5>
+                <ul>
+                    <li>Best case: O(1) - target is the first element</li>
+                    <li>Average case: O(n) - target is in the middle</li>
+                    <li>Worst case: O(n) - target is the last element or not present</li>
+                </ul>
+                
+                <h5>Space Complexity:</h5>
+                <ul>
+                    <li>O(1) - uses constant extra space</li>
+                </ul>
+                
+                <h4>Binary Search</h4>
+                <p>Binary search works on sorted arrays by repeatedly dividing the search interval in half.</p>
+                
+                <div class="ascii-art">
+Array: [ 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 ]
+                          ↑
+                       Middle
+                      
+If target < middle:  [ 1 | 2 | 3 | 4 | 5 | - | - | - | - | - ]
+If target > middle:  [ - | - | - | - | - | 6 | 7 | 8 | 9 | 10 ]
+                </div>
+                
+                <p><strong>Prerequisites:</strong> The array must be sorted.</p>
+                
+                <h5>Step-by-step process:</h5>
+                <ol>
+                    <li>Initialize <code>first</code> pointer to the beginning of the array (index 0)</li>
+                    <li>Initialize <code>last</code> pointer to the end of the array (length - 1)</li>
+                    <li>While <code>first</code> <= <code>last</code>:
+                        <ol type="a">
+                            <li>Calculate the middle index: <code>mid = (first + last) / 2</code></li>
+                            <li>If array[mid] equals the target, return mid (search successful)</li>
+                            <li>If target > array[mid], set first = mid + 1 (search in right half)</li>
+                            <li>If target < array[mid], set last = mid - 1 (search in left half)</li>
+                        </ol>
+                    </li>
+                    <li>If the while loop exits without returning, the target is not in the array (return -1)</li>
+                </ol>
+                
+                <h5>Time Complexity:</h5>
+                <ul>
+                    <li>Best case: O(1) - target is the middle element</li>
+                    <li>Average and worst case: O(log n) - logarithmic time as the search space is halved in each step</li>
+                </ul>
+                
+                <h5>Space Complexity:</h5>
+                <ul>
+                    <li>Iterative: O(1) - constant extra space</li>
+                    <li>Recursive: O(log n) - due to the call stack</li>
+                </ul>
+            </div>
+            
+            <div id="sort-algorithms">
+                <h3>Sort Algorithms</h3>
+                
+                <h4>Bubble Sort</h4>
+                <p>Repeatedly steps through the list, compares adjacent elements, and swaps them if they are in the wrong order.</p>
+                
+                <h5>Time Complexity:</h5>
+                <ul>
+                    <li>Best case: O(n) - already sorted array with optimization</li>
+                    <li>Average and worst case: O(n²) - need to compare most pairs of elements</li>
+                </ul>
+                
+                <h4>Selection Sort</h4>
+                <p>Repeatedly selects the smallest (or largest) element from the unsorted portion and places it at the beginning (or end).</p>
+                
+                <h5>Time Complexity:</h5>
+                <ul>
+                    <li>Best, average, and worst case: O(n²) - always performs the same number of comparisons</li>
+                </ul>
+                
+                <h4>Insertion Sort</h4>
+                <p>Builds a sorted array one element at a time, by inserting each element in its proper position.</p>
+                
+                <h5>Time Complexity:</h5>
+                <ul>
+                    <li>Best case: O(n) - already sorted array</li>
+                    <li>Average and worst case: O(n²) - need to shift most elements</li>
+                </ul>
+                
+                <h4>Merge Sort</h4>
+                <p>A divide-and-conquer algorithm that divides the array into halves, sorts each half, and then merges them.</p>
+                
+                <h5>Time Complexity:</h5>
+                <ul>
+                    <li>Best, average, and worst case: O(n log n) - divide step takes O(log n) time, merge step takes O(n) time</li>
+                </ul>
+                
+                <h5>Space Complexity:</h5>
+                <ul>
+                    <li>O(n) - requires additional space for temporary arrays</li>
+                </ul>
+                
+                <h4>Quick Sort</h4>
+                <p>Another divide-and-conquer algorithm that partitions the array based on a pivot element.</p>
+                
+                <h5>Time Complexity:</h5>
+                <ul>
+                    <li>Best and average case: O(n log n) - balanced partitioning</li>
+                    <li>Worst case: O(n²) - unbalanced partitioning<li>Worst case: O(n²) - unbalanced partitioning (happens with already sorted arrays)</li>
+                </ul>
+                
+                <h5>Space Complexity:</h5>
+                <ul>
+                    <li>Average: O(log n) - for the recursion stack</li>
+                    <li>Worst: O(n) - for the recursion stack in worst case</li>
+                </ul>
+                
+                <h4>Algorithm Complexity Comparison</h4>
+                <table class="complexity-table">
+                    <thead>
+                        <tr>
+                            <th>Algorithm</th>
+                            <th>Best Case</th>
+                            <th>Average Case</th>
+                            <th>Worst Case</th>
+                            <th>Space</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Linear Search</td>
+                            <td>O(1)</td>
+                            <td>O(n)</td>
+                            <td>O(n)</td>
+                            <td>O(1)</td>
+                        </tr>
+                        <tr>
+                            <td>Binary Search</td>
+                            <td>O(1)</td>
+                            <td>O(log n)</td>
+                            <td>O(log n)</td>
+                            <td>O(1)</td>
+                        </tr>
+                        <tr>
+                            <td>Bubble Sort</td>
+                            <td>O(n)</td>
+                            <td>O(n²)</td>
+                            <td>O(n²)</td>
+                            <td>O(1)</td>
+                        </tr>
+                        <tr>
+                            <td>Selection Sort</td>
+                            <td>O(n²)</td>
+                            <td>O(n²)</td>
+                            <td>O(n²)</td>
+                            <td>O(1)</td>
+                        </tr>
+                        <tr>
+                            <td>Insertion Sort</td>
+                            <td>O(n)</td>
+                            <td>O(n²)</td>
+                            <td>O(n²)</td>
+                            <td>O(1)</td>
+                        </tr>
+                        <tr>
+                            <td>Merge Sort</td>
+                            <td>O(n log n)</td>
+                            <td>O(n log n)</td>
+                            <td>O(n log n)</td>
+                            <td>O(n)</td>
+                        </tr>
+                        <tr>
+                            <td>Quick Sort</td>
+                            <td>O(n log n)</td>
+                            <td>O(n log n)</td>
+                            <td>O(n²)</td>
+                            <td>O(log n)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="usage" class="section">
+            <h2>Usage</h2>
+            <p>Each data structure and algorithm has its own runner class that demonstrates its functionality. To run any example:</p>
+            
+            <ol>
+                <li>Navigate to the specific directory</li>
+                <li>Compile the Java files</li>
+                <li>Run the appropriate runner class</li>
+            </ol>
+            
+            <p>For example:</p>
+            <pre><code>
+# For Stack example
+javac DataStructures/Stack/Stack.java DataStructures/Stack/StackRun.java
+java DataStructures.Stack.StackRun
+
+# For Binary Search example
+javac Algorithms/Search_Algorithms/BinarySearch/BinarySearch.java
+java Algorithms.Search_Algorithms.BinarySearch.BinarySearch
+            </code></pre>
+        </section>
+
+        <section id="when-to-use" class="section">
+            <h2>When to Use Which Data Structure or Algorithm</h2>
+            
+            <h3>Data Structures</h3>
+            
+            <h4>Linked List:</h4>
+            <ul>
+                <li>Use when you need frequent insertions and deletions</li>
+                <li>Use when the size is not known in advance or may change dynamically</li>
+                <li>Use when random access is not required</li>
+                <li>Doubly linked lists are preferred when you need to traverse both forward and backward</li>
+            </ul>
+            
+            <h4>Stack:</h4>
+            <ul>
+                <li>Use for problems involving last-in-first-out (LIFO) operations</li>
+                <li>Applications: Function call management, expression evaluation, undo mechanisms</li>
+                <li>Use when you only need to access elements at one end of the collection</li>
+            </ul>
+            
+            <h4>Queue:</h4>
+            <ul>
+                <li>Use for problems involving first-in-first-out (FIFO) operations</li>
+                <li>Applications: Task scheduling, breadth-first search, buffering</li>
+                <li>Use when you need to process items in the exact order they were added</li>
+                <li>Circular queues are efficient for fixed-size queue implementations</li>
+            </ul>
+            
+            <h3>Algorithms</h3>
+            
+            <h4>Search Algorithms:</h4>
+            <ul>
+                <li><strong>Linear Search:</strong> Use for unsorted arrays or when the array is very small</li>
+                <li><strong>Binary Search:</strong> Use for sorted arrays when quick lookups are required</li>
+            </ul>
+            
+            <h4>Sort Algorithms:</h4>
+            <ul>
+                <li><strong>Bubble Sort:</strong> Rarely used in practice due to inefficiency, but simple to implement</li>
+                <li><strong>Selection Sort:</strong> Use for small arrays or when memory writes are expensive</li>
+                <li><strong>Insertion Sort:</strong> Use for small arrays or nearly sorted arrays</li>
+                <li><strong>Merge Sort:</strong> Use when stable sort is required and extra memory usage is not a concern</li>
+                <li><strong>Quick Sort:</strong> Use for general-purpose sorting when average performance matters more than worst-case scenarios</li>
+            </ul>
+        </section>
+
+        <section id="contributing" class="section">
+            <h2>Contributing</h2>
+            <p>Contributions are welcome! If you'd like to add new data structures, algorithms, or improve existing implementations:</p>
+            
+            <ol>
+                <li>Fork the repository</li>
+                <li>Create your feature branch</li>
+                <li>Commit your changes with detailed comments</li>
+                <li>Push to your branch</li>
+                <li>Submit a pull request with a clear description of your improvements</li>
+            </ol>
+            
+            <p>When contributing, please ensure:</p>
+            <ul>
+                <li>Code is well-commented and follows Java best practices</li>
+                <li>Each implementation includes a brief explanation of its functionality</li>
+                <li>Time and space complexity are documented</li>
+                <li>Examples demonstrating usage are provided</li>
+            </ul>
+        </section>
+    </div>
+
+    <script>
+        // Initialize dark/light mode based on system preference or localStorage
+        function initializeTheme() {
+            const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+            const savedTheme = localStorage.getItem('theme');
+            
+            if (savedTheme === 'dark' || (!savedTheme && darkModeMediaQuery.matches)) {
+                document.body.classList.add('dark-mode');
+                updateModeIcon(true);
+                document.getElementById('code-theme').href = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css';
+            } else {
+                document.body.classList.remove('dark-mode');
+                updateModeIcon(false);
+                document.getElementById('code-theme').href = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github.min.css';
+            }
+        }
+
+        // Update the icon based on current theme
+        function updateModeIcon(isDark) {
+            const icon = document.getElementById('mode-icon');
+            if (isDark) {
+                // Moon icon
+                icon.innerHTML = `
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                `;
+            } else {
+                // Sun icon
+                icon.innerHTML = `
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                `;
+            }
+        }
+
+        // Toggle dark/light mode
+        document.getElementById('mode-toggle').addEventListener('click', function() {
+            const isDarkMode = document.body.classList.toggle('dark-mode');
+            updateModeIcon(isDarkMode);
+            
+            if (isDarkMode) {
+                localStorage.setItem('theme', 'dark');
+                document.getElementById('code-theme').href = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css';
+            } else {
+                localStorage.setItem('theme', 'light');
+                document.getElementById('code-theme').href = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github.min.css';
+            }
+        });
+
+        // Highlight code blocks
+        document.addEventListener('DOMContentLoaded', (event) => {
+            document.querySelectorAll('pre code').forEach((block) => {
+                hljs.highlightBlock(block);
+            });
+            initializeTheme();
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    const headerOffset = 100;
+                    const elementPosition = targetElement.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
